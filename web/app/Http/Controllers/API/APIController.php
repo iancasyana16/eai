@@ -178,36 +178,4 @@ class APIController extends Controller
 
         return response()->json(['status' => true, 'message' => 'Profil berhasil diperbarui']);
     }
-
-    public function logSearch(Request $request)
-    {
-        $request->validate(['keyword' => 'required|string']);
-
-        DB::table('search_logs')->insert([
-            'user_id' => Auth::id(),
-            'keyword' => $request->keyword,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        return response()->json(['status' => true, 'message' => 'Search log saved']);
-    }
-
-    public function popularMenus()
-    {
-        $popularKeywords = DB::table('search_logs')
-            ->select('keyword', DB::raw('count(*) as total'))
-            ->groupBy('keyword')
-            ->orderByDesc('total')
-            ->limit(5)
-            ->pluck('keyword');
-
-        $menus = Product::where(function ($query) use ($popularKeywords) {
-            foreach ($popularKeywords as $keyword) {
-                $query->orWhere('name', 'like', "%$keyword%");
-            }
-        })->get();
-
-        return response()->json(['status' => true, 'data' => $menus]);
-    }
 }

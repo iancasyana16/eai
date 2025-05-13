@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\API\APIController;
-use App\Http\Controllers\API\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SearchLogController; // Ensure this class exists in the specified namespace
+use App\Http\Controllers\AiController;
+use App\Http\Controllers\API\APIController;
+use App\Http\Controllers\API\AuthController;
+// use App\Http\Controllers\SearchLogController; // Ensure this class exists in the specified namespace
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -31,6 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profile', [APIController::class, 'updateProfile']);
 
     // routes/api.php
-    Route::post('/log-search', [APIController::class, 'logSearch']);
-    Route::get('/popular-menus', [APIController::class, 'popularMenus']);
+    Route::post('/log-search', [AiController::class, 'logSearch']);
+    Route::get('/popular-menus', [AiController::class, 'popularMenus']);
 });
